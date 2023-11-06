@@ -13,7 +13,7 @@ const Place = require("./models/Place.js");
 
 const app = express();
 dotenv.config();
-
+const PORT=process.env.PORT || 5000;
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
@@ -70,6 +70,6 @@ app.post("/upload", photosMiddleware.array("photos", 20), (req, res) => {
   res.json(uploadedFiles);
 });
 
-app.listen(process.env.PORT || 5000, () => {
-  console.log("server running");
+app.listen(PORT, () => {
+  console.log(`server running on port ${PORT}`);
 });
