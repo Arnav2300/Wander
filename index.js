@@ -12,16 +12,18 @@ const fs = require("fs");
 const Place = require("./models/Place.js");
 
 const app = express();
+dotenv.config();
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: `${process.env.CLIENT_URL}`,
   })
 );
-dotenv.config();
+
 //db connection
 mongoose
   .connect(process.env.MONGO_URI)
@@ -69,5 +71,5 @@ app.post("/upload", photosMiddleware.array("photos", 20), (req, res) => {
 });
 
 app.listen(process.env.PORT || 5000, () => {
-  console.log("server running on port 5000");
+  console.log("server running");
 });
