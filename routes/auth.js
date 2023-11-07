@@ -19,7 +19,6 @@ router.post("/signup", async (req, res) => {
     res.status(201).json(user);
   } catch (error) {
     res.status(501).json(error);
-    
   }
 });
 
@@ -35,7 +34,14 @@ router.post("/login", async (req, res) => {
         {},
         (error, token) => {
           if (error) throw error;
-          res.cookie("token", token).json(user);
+          res
+            .cookie("token", token, {
+              httpOnly: true,
+              maxAge: 3600000 * 5,
+              secure: true,
+              sameSite: "none",
+            })
+            .json(user);
         }
       );
     } else {
